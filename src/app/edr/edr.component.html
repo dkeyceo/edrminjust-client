@@ -1,16 +1,24 @@
 <div class="container">
-    <div class="card">
+    
+    <!-- <div *ngIf="loading" class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-border text-success" role="status">
+        <span class="sr-only">Loading...</span>
+      </div> -->
 
-        <div class="card-body">
-              
-              <div class="input-group">
-                <input type="text" [(ngModel)]="edrpou" class="form-control" placeholder="Введіть ЄДРПОУ організації:">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="getOrgByEdrpou()">Знайти</button>
-                </div>
-              </div>
-            
-            <table class="table table-striped">
+    <div class="card">
+        <div class="input-group">
+            <input type="text" [(ngModel)]="edrpou" class="form-control" placeholder="Введіть ЄДРПОУ організації:">
+            <div class="input-group-append">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="getOrgByEdrpou()">Знайти</button>
+            </div>
+          </div>
+        <p *ngIf="loading">
+            Loading ...
+        </p>  
+        <div *ngIf="!loading" class="card-body">
+            <table *ngIf="org.id!==null; else noData" class="table table-striped">
                 <thead>
                     <th>Назва атрибута</th>
                     <th>Значення</th>
@@ -110,7 +118,14 @@
                     </tr>
                     <tr>
                         <th>Дані про відокремлені підрозділи юридичної особи: найменування, ідентифікаційний код, місцезнаходження</th>
-                        <td>{{org.code}}</td>
+                        
+                        <td>
+                            <p *ngFor="let b of org.branches">
+                                <span>
+                                    {{b.name}}  Код ЄДРПОУ ВП: {{b.code}} Місцезнаходження: {{b.address.address}}
+                                </span>
+                            </p>
+                        </td>
                     </tr>
                     <tr>
                         <th>Дані про перебування юридичної особи в процесі провадження у справі про банкрутство, санації</th>
@@ -122,27 +137,27 @@
                     </tr>
                     <tr>
                         <th>Відомості про смерть, визнання безвісно відсутнім чи оголошення померлим засновника (учасника), керівника та особи, яка може вчиняти дії від імені юридичної особи</th>
-                        <td>{{org.code}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Відомості про строк, визначений засновниками (учасниками) юридичної особи, судом або органом, що прийняв рішення про припинення юридичної особи, для заявлення кредиторами своїх вимог</th>
-                        <td>{{org.code}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Дата та номер запису про державну реєстрацію припинення юридичної особи, підстава для його внесення</th>
-                        <td>{{org.code}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Дата та номер запису про відміну державної реєстрації припинення юридичної особи, підстава внесення</th>
-                        <td>{{org.code}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Дані про юридичних осіб, правонаступником яких є зареєстрована юридична особа: повне найменування, ідентифікаційний код</th>
-                        <td>{{org.code}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Дані про юридичних осіб - правонаступників: повне найменування, ідентифікаційний код</th>
-                        <td>{{org.code}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Місцезнаходження реєстраційної справи</th>
@@ -180,3 +195,7 @@
         </div>
     </div>
 </div>
+<ng-template #noData>
+    <p>No data</p>
+</ng-template>
+

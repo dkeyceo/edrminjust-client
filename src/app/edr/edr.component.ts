@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { delay } from 'rxjs';
 import { EdrService } from '../edr.service';
 
 @Component({
@@ -8,6 +9,7 @@ import { EdrService } from '../edr.service';
 })
 export class EdrComponent implements OnInit {
 
+  public loading: boolean = false
   public org?: any;
   public edrpou: string='';
   constructor(private edrService: EdrService) { }
@@ -24,9 +26,12 @@ export class EdrComponent implements OnInit {
   }
 */
   getOrgByEdrpou( ){
-    this.edrService.getOrgCardByEdrpou(this.edrpou).subscribe((data: any) => {
-      console.log(data);
+    this.loading = true;
+    this.edrService.getOrgCardByEdrpou(this.edrpou)
+    .pipe(delay(1000))
+    .subscribe((data: any) => {
       this.org = data;
+      this.loading = false;
     });
   }
 
